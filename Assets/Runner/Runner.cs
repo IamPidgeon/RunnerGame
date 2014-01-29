@@ -6,9 +6,10 @@ public class Runner : MonoBehaviour {
 	
 	public float acceleration;
 	public Vector3 jumpVelocity;
+	public Vector3 boostVelocity;
 	public float gameOverY;
 
-	public static bool PoweredUp;
+	public static int PowerUps;
 
 	private bool touchingPlatform;
 	private Vector3 startPosition;
@@ -23,15 +24,21 @@ public class Runner : MonoBehaviour {
 	}
 	
 	void Update () {
-		if (Input.GetButtonDown("Jump") && touchingPlatform) {
-			rigidbody.AddForce(jumpVelocity, ForceMode.VelocityChange);
-			touchingPlatform = false;
-		}
-		else if (Input.GetButtonDown("Jump") && PoweredUp) {
-			rigidbody.AddForce(jumpVelocity, ForceMode.VelocityChange);
-			PoweredUp = false;
+		if (Input.GetButtonDown("Jump")) {
+			if (touchingPlatform) {
+				rigidbody.AddForce(jumpVelocity, ForceMode.VelocityChange);
+				touchingPlatform = false;
+			}
+			else if (PowerUps > 0) {
+				rigidbody.AddForce(boostVelocity, ForceMode.VelocityChange);
+				PowerUps -= 1;
+				GUIManager.SetPowerUps(PowerUps);
+			}
 		}
 		distanceTraveled = transform.localPosition.x;
+		GUIManager.SetDistance(distanceTraveled);
+		GUIManager.SetPowerUps(PowerUps);
+
 		
 		if (transform.localPosition.y < gameOverY) {
 			GameEventManager.TriggerGameOver();
@@ -57,6 +64,7 @@ public class Runner : MonoBehaviour {
 		transform.localPosition = startPosition;
 		renderer.enabled = true;
 		rigidbody.isKinematic = false;
+		PowerUps = 0;
 		enabled = true;
 	}
 	

@@ -11,7 +11,7 @@ public class PlatformManager : MonoBehaviour {
 	public float minY, maxY;
 	public Material[] materials;
 	public PhysicMaterial[] physicMaterials;
-	public BoosterManager booster;
+	public Booster booster;
 
 	private Vector3 nextPosition;
 	private Queue<Transform> objectQueue;
@@ -42,7 +42,8 @@ public class PlatformManager : MonoBehaviour {
 		Vector3 position = nextPosition;
 		position.x += scale.x * 0.5f;
 		position.y += scale.y * 0.5f;
-		booster.SpawnIfAvailable(position);		// sends message for possible spawn. Maybe makes sense to calculate the %spawn here to save calls?
+		// sends message for possible spawn. Maybe makes sense to calculate the %spawn here to save calls?
+		booster.SpawnIfAvailable(position);		
 
 		Transform o = objectQueue.Dequeue();
 		o.localScale = scale;
