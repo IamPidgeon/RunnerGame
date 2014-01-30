@@ -1,9 +1,5 @@
 ﻿using UnityEngine;
 
-// DRY out the event addition in Start() from all scripts
-// DRY out Triggers in event manager
-// make a datatype for materials array in PlatformManager
-
 public class Runner : MonoBehaviour {
 	
 	public static int Boosts, DistanceTraveled;

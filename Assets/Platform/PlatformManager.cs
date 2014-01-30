@@ -44,7 +44,9 @@ public class PlatformManager : MonoBehaviour {
 			Random.Range(MinSize.y, MaxSize.y),
 			Random.Range(MinSize.z, MaxSize.z));
 
-		Vector3 position = nextPosition + new Vector3 (scale.x * 0.5f, scale.y * 0.5f, 0f);
+		Vector3 position = nextPosition;
+		position.x += scale.x * 0.5f;
+		position.y += scale.y * 0.5f;
 		Booster.SpawnIfAvailable(position);		
 
 		Transform o = objectQueue.Dequeue();

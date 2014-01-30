@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class Booster : MonoBehaviour {
-
 	// offset from platform's center, velocity for spin
 	public Vector3 Offset, RotationVelocity; 
 	// offset for when object moves outside camera view, % chance for spawn
@@ -27,6 +25,7 @@ public class Booster : MonoBehaviour {
 		if (gameObject.activeSelf || SpawnChance <= Random.Range (0f, 100f)) {
 			return;
 		}
+
 		transform.localPosition = position + Offset;
 		gameObject.SetActive(true);
 	}

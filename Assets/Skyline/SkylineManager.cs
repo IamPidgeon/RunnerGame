@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 
 public class SkylineManager : MonoBehaviour {
-
+	// Similar to PlatformManager
 	public Transform Prefab;
 	public int NumberOfObjects;
 	public float RecycleOffset;
-	public Vector3 StartPosition;
-	public Vector3 MinSize, MaxSize;
+	public Vector3 StartPosition, MinSize, MaxSize;
 
 	private Vector3 nextPosition;
 	private Queue<Transform> objectQueue;
@@ -20,6 +19,7 @@ public class SkylineManager : MonoBehaviour {
 			objectQueue.Enqueue((Transform)Instantiate(
 				Prefab, new Vector3(0f, 0f, -100f), Quaternion.identity));
 		}
+
 		enabled = false;
 	}
 
