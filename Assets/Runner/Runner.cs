@@ -1,16 +1,16 @@
 ﻿using UnityEngine;
 
+// DRY out the event addition in Start() from all scripts
+// DRY out Triggers in event manager
+// make a datatype for materials array in PlatformManager
+
 public class Runner : MonoBehaviour {
-
-	public static float distanceTraveled;
 	
-	public float acceleration;
-	public Vector3 jumpVelocity;
-	public Vector3 boostVelocity;
-	public float gameOverY;
+	public static int Boosts, DistanceTraveled;
 
-	public static int PowerUps;
-
+	public float Acceleration, GameOverY;
+	public Vector3 JumpVelocity, BoostVelocity;
+	
 	private bool touchingPlatform;
 	private Vector3 startPosition;
 	
@@ -22,32 +22,27 @@ public class Runner : MonoBehaviour {
 		rigidbody.isKinematic = true;
 		enabled = false;
 	}
-	
-	void Update () {
-		if (Input.GetButtonDown("Jump")) {
-			if (touchingPlatform) {
-				rigidbody.AddForce(jumpVelocity, ForceMode.VelocityChange);
-				touchingPlatform = false;
-			}
-			else if (PowerUps > 0) {
-				rigidbody.AddForce(boostVelocity, ForceMode.VelocityChange);
-				PowerUps -= 1;
-				GUIManager.SetPowerUps(PowerUps);
-			}
-		}
-		distanceTraveled = transform.localPosition.x;
-		GUIManager.SetDistance(distanceTraveled);
-		GUIManager.SetPowerUps(PowerUps);
-
-		
-		if (transform.localPosition.y < gameOverY) {
-			GameEventManager.TriggerGameOver();
-		}
-	}
 
 	void FixedUpdate () {
 		if(touchingPlatform){
-			rigidbody.AddForce(acceleration, 0f, 0f, ForceMode.Acceleration);
+			rigidbody.AddForce(Acceleration, 0f, 0f, ForceMode.Acceleration);
+
+			if (Input.GetButtonDown("Jump")) {
+				rigidbody.AddForce(JumpVelocity, ForceMode.VelocityChange);
+				touchingPlatform = false;
+			}
+		}
+		else if (Input.GetButtonDown("Jump") && Boosts > 0) {	// extra code not worth the DRY
+			rigidbody.AddForce(BoostVelocity, ForceMode.VelocityChange);
+			Boosts -= 1;
+			GUIManager.SetBoosts(Boosts);
+		}
+
+		DistanceTraveled = (int)transform.localPosition.x;
+		GUIManager.SetScore(DistanceTraveled);
+		
+		if (transform.localPosition.y < GameOverY) { // if falls
+			GameEventManager.TriggerGameOver();
 		}
 	}
 
@@ -60,11 +55,11 @@ public class Runner : MonoBehaviour {
 	}
 
 	private void GameStart () {
-		distanceTraveled = 0f;
+		GUIManager.SetScore(DistanceTraveled = 0);
+		GUIManager.SetBoosts(Boosts = 0);
 		transform.localPosition = startPosition;
 		renderer.enabled = true;
 		rigidbody.isKinematic = false;
-		PowerUps = 0;
 		enabled = true;
 	}
 	

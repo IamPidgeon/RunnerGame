@@ -4,9 +4,9 @@ using System.Collections;
 public class Booster : MonoBehaviour {
 
 	// offset from platform's center, velocity for spin
-	public Vector3 offset, rotationVelocity; 
+	public Vector3 Offset, RotationVelocity; 
 	// offset for when object moves outside camera view, % chance for spawn
-	public float recycleOffset, spawnChance;
+	public float RecycleOffset, SpawnChance;
 
 	void Start () {
 		GameEventManager.GameOver += GameOver;
@@ -15,19 +15,19 @@ public class Booster : MonoBehaviour {
 
 	void Update () {
 		// If booster is behind runner and off camera
-		if (transform.localPosition.x + recycleOffset < Runner.distanceTraveled) {
+		if (transform.localPosition.x + RecycleOffset < Runner.DistanceTraveled) {
 			gameObject.SetActive(false);
 			return;
 		}
-		transform.Rotate(rotationVelocity * Time.deltaTime);
+		transform.Rotate(RotationVelocity * Time.deltaTime);
 	}
 
 	public void SpawnIfAvailable (Vector3 position) {	
-		// spawns if booster is not already active and > % spawnChance
-		if (gameObject.activeSelf || spawnChance <= Random.Range (0f, 100f)) {
+		// don't spawn if booster is active or SpawnChance fails
+		if (gameObject.activeSelf || SpawnChance <= Random.Range (0f, 100f)) {
 			return;
 		}
-		transform.localPosition = position + offset;
+		transform.localPosition = position + Offset;
 		gameObject.SetActive(true);
 	}
 
@@ -36,8 +36,8 @@ public class Booster : MonoBehaviour {
 	}
 
 	private void OnTriggerEnter() {
-		Runner.PowerUps += 1;
-		GUIManager.SetPowerUps(Runner.PowerUps);
+		Runner.Boosts += 1;
+		GUIManager.SetBoosts(Runner.Boosts);
 		gameObject.SetActive(false);
 	}
 

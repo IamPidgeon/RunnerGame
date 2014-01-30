@@ -3,7 +3,7 @@ using System.Collections;
 
 public class ParticleSystemManager : MonoBehaviour {
 
-	public ParticleSystem[] particleSystems;
+	public ParticleSystem[] ParticleSystems;
 
 	void Start () {
 		GameEventManager.GameStart += GameStart;
@@ -12,15 +12,15 @@ public class ParticleSystemManager : MonoBehaviour {
 	}
 
 	private void GameStart () {
-		for (int i = 0; i < particleSystems.Length; i++) {
-			particleSystems[i].Clear();
-			particleSystems[i].enableEmission = true;
+		for (int i = 0; i < ParticleSystems.Length; i++) {
+			ParticleSystems[i].Clear();
+			ParticleSystems[i].enableEmission = true;
 		}
 	}
 
 	private void GameOver () {
-		for (int i = 0; i < particleSystems.Length; i++) {
-			particleSystems[i].enableEmission = false;
+		for (int i = 0; i < ParticleSystems.Length; i++) {
+			ParticleSystems[i].enableEmission = false;
 		}
 	}
 }

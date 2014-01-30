@@ -2,7 +2,7 @@
 
 public class GUIManager : MonoBehaviour {
 
-	public GUIText gameOverText, instructionsText, runnerText, scoreText, powerUpsText;
+	public GUIText GameOverText, InstructionsText, RunnerText, ScoreText, BoostsText;
 
 	// creating an instance which is necessary to call non-static methods
 	private static GUIManager instance;		
@@ -11,9 +11,9 @@ public class GUIManager : MonoBehaviour {
 		instance = this;
 		GameEventManager.GameStart += GameStart;
 		GameEventManager.GameOver += GameOver;
-		gameOverText.enabled = false;
-		scoreText.enabled = false;
-		powerUpsText.enabled = false;
+		GameOverText.enabled = false;
+		ScoreText.enabled = false;
+		BoostsText.enabled = false;
 	}
 
 	void Update () {
@@ -23,27 +23,27 @@ public class GUIManager : MonoBehaviour {
 	}
 	
 	private void GameStart () {
-		gameOverText.enabled = false;
-		instructionsText.enabled = false;
-		runnerText.enabled = false;
-		scoreText.enabled = true;
-		powerUpsText.enabled = true;
+		GameOverText.enabled = false;
+		InstructionsText.enabled = false;
+		RunnerText.enabled = false;
+		ScoreText.enabled = true;
+		BoostsText.enabled = true;
 		enabled = false;
 	}
 	
 	private void GameOver () {
-		gameOverText.enabled = true;
-		instructionsText.enabled = true;
+		GameOverText.enabled = true;
+		InstructionsText.enabled = true;
 		enabled = true;
 	}
 
 	// setters for Runner to send info to update the GUI
-	public static void SetPowerUps(int powerUps){		
-		instance.powerUpsText.text = "Power Ups: " + powerUps.ToString();
+	public static void SetBoosts(int boosts){		
+		instance.BoostsText.text = "Boosts: " + boosts.ToString();
 	}
 	
-	public static void SetDistance(float distance){
-		instance.scoreText.text = "Score: " + distance.ToString("f0");
+	public static void SetScore(float distance){
+		instance.ScoreText.text = "Score: " + distance.ToString();
 
 	}
 }
