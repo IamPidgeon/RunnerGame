@@ -19,14 +19,13 @@ public class Runner : MonoBehaviour {
 		enabled = false;
 	}
 
-	void FixedUpdate () {
+	void Update () {
 		if(touchingPlatform){
-			rigidbody.AddForce(Acceleration, 0f, 0f, ForceMode.Acceleration);
-
 			if (Input.GetButtonDown("Jump")) {
 				rigidbody.AddForce(JumpVelocity, ForceMode.VelocityChange);
 				touchingPlatform = false;
 			}
+			rigidbody.AddForce(Acceleration, 0f, 0f, ForceMode.Acceleration);
 		}
 		else if (Input.GetButtonDown("Jump") && Boosts > 0) {	// extra code not worth the DRY
 			rigidbody.AddForce(BoostVelocity, ForceMode.VelocityChange);
